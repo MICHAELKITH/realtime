@@ -1,16 +1,13 @@
 import { Controller } from "@hotwired/stimulus";
 
-// Connects to data-controller="search"
-export default class extends Controller {
+export default class SearchController extends Controller {
   static targets = ["input", "suggestions"];
+  timeout = null;
+  childWasClicked = false;
 
   connect() {
     console.log("Connected?");
-    document.addEventListener("click", (event) => {
-      if (!this.element.contains(event.target)) {
-        this.hideSuggestions();
-      }
-    });
+    document.addEventListener("click", this.handleOutsideClick.bind(this));
   }
 
   suggestions() {
@@ -30,19 +27,29 @@ export default class extends Controller {
     }
     this.showSuggestions();
 
+    const csrfToken = document.querySelector("meta[name='csrf-token']").content;
+
     fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "X-CSRF-Token": document.querySelector("meta[name='csrf-token']")
-          .content,
+        "X-CSRF-Token": csrfToken,
       },
-      body: JSON.stringify({ query: query }),
-    }).then((response) => {
-      response.text().then((html) => {
+      body: JSON.stringify({ query }),
+    })
+      .then((response) => response.text())
+      .then((html) => {
         document.body.insertAdjacentHTML("beforeend", html);
+      })
+      .catch((error) => {
+        console.error("Error fetching suggestions:", error);
       });
-    });
+  }
+
+  handleOutsideClick(event) {
+    if (!this.element.contains(event.target)) {
+      this.hideSuggestions();
+    }
   }
 
   childClicked(event) {

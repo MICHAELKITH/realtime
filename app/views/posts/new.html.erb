@@ -1,9 +1,13 @@
-<h1>New post</h1>
+<div class="flex justify-center items-center h-screen bg-blue-500">
+  <div class="border p-6 mt-12">
+    <h1 class="text-3xl font-bold mb-4">Add new post</h1>
 
-<%= render "form", post: @post %>
+    <div class="flex flex-col items-center">
+      <%= render "form", post: @post %>
 
-<br>
-
-<div>
-  <%= link_to "Back to posts", posts_path %>
+      <div class="mt-6">
+        <%= link_to "Back to posts", posts_path, class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" %>
+      </div>
+    </div>
+  </div>
 </div>

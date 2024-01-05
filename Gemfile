@@ -9,7 +9,7 @@ gem "rails", "~> 7.0.4"
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem "sprockets-rails"
 
-# Use sqlite3 as the database for Active Record
+# Use pg as the database for Active Record
 gem "pg", "~> 1.1"
 
 # Use the Puma web server [https://github.com/puma/puma]
@@ -78,6 +78,6 @@ end
 gem 'searchkick'
 gem 'elasticsearch', '~> 7.17'
 gem 'faker'
-
-# Ruby 3.2 doesn't have Foreman support yet
 gem 'foreman', github: 'ddollar/foreman'
+
+gem "tailwindcss-rails", "~> 2.2"
